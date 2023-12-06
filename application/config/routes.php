@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -69,3 +69,8 @@ $route['dashboard'] = 'dashboard/index';
 
 // //route for admin
 // $route['admin/user'] = 'admin/index';
+
+
+// CEO
+// $route['ceo/user'] = 'ceo/user/index';
+// $route['ceo/add_user'] = 'ceo/user/add_user';
