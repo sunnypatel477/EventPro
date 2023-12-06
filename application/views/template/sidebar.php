@@ -48,6 +48,12 @@
                   <p>Users</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="<?php echo base_url('ceo/project'); ?>" class="nav-link <?php echo isset($nav) && $nav == 'project' ? 'active':'' ?> ">
+                  <i class="fa-solid fa-users"></i>
+                  <p>Project</p>
+                </a>
+              </li>
             <?php } ?>
           </ul>
         </li>
