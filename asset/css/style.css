@@ -115,3 +115,8 @@
    font-size: 12px;
    margin-top: 5px;
 }
+
+/* user table */
+#user_list{
+ width: 100% !important;
+}
