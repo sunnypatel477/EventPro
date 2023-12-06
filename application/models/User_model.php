@@ -90,7 +90,7 @@ class User_model extends CI_Model
 		return $this->db->affected_rows();
 	}
 
-	
+
 	/**
 	 * list_table function.
 	 * 
@@ -104,7 +104,12 @@ class User_model extends CI_Model
 		//left join
 		$this->db->join('user_role', 'user.role = user_role.id', 'left');
 		//where condition
-		$this->db->where('user.role !=', 1);
+		if ($this->session->userdata('role') == 2) {
+			$this->db->where('user.role !=', 1);
+			$this->db->where('user.role !=', 2);
+		} else {
+			$this->db->where('user.role !=', 1);
+		}
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -163,15 +168,15 @@ class User_model extends CI_Model
 		}
 	}
 
-	
+
 
 	// User Update Password
 	public function update_password($reset_token, $new_password)
 	{
-		$user = $this->db->get_where('user', array('token' => $reset_token))->row();
+		$user = $this->db->get_where('user', array('reset_token' => $reset_token))->row();
 		if ($user) {
-			$this->db->where('token', $reset_token);
-			$this->db->update('user', array('password' => password_hash($new_password, PASSWORD_DEFAULT), 'token' => null));
+			$this->db->where('reset_token', $reset_token);
+			$this->db->update('user', array('password' => password_hash($new_password, PASSWORD_DEFAULT), 'reset_token' => null));
 			return true;
 		} else {
 			return false;
