@@ -4,21 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="<?php echo base_url('/asset/bootstrap/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('/asset/css/style.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('/asset/datatable/css/jquery.dataTables.min.css'); ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url('/asset/datatable/css/responsive.bootstrap.css'); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- <script src="<?php echo base_url('/asset/js/jquery.slim.min.js'); ?>" crossorigin="anonymous"></script> -->
-    <script src="<?php echo base_url('/asset/js/jquery-3.7.0.js'); ?>" crossorigin="anonymous"></script>
-
-    <!-- jQuery UI 1.11.4 -->
-    <script src="<?php echo base_url('plugins/jquery-ui/jquery-ui.min.js'); ?>"></script>
-    <script src="<?php echo base_url('/asset/js/jquery.validate.min.js'); ?>" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="<?php echo base_url('/asset/toastr/css/toastr.min.css'); ?>">
-    <script src="<?php echo base_url('/asset/toastr/js/toastr.min.js'); ?>"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
-
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
@@ -39,6 +29,16 @@
     <link rel="stylesheet" href="<?php echo base_url('plugins/daterangepicker/daterangepicker.css'); ?>">
     <!-- Summernote -->
     <link rel="stylesheet" href="<?php echo base_url('plugins/summernote/summernote-bs4.min.css'); ?>">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="<?php echo base_url('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('plugins/datatables-responsive/css/responsive.bootstrap4.min.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('plugins/datatables-buttons/css/buttons.bootstrap4.min.css'); ?>">
+
+    <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="<?php echo base_url('/asset/js/jquery-3.7.0.js'); ?>" crossorigin="anonymous"></script>
+   
+
 
 
     <title><?php echo $title ?? '' ?></title>
@@ -50,23 +50,18 @@
             $('#loader-container').show();
         };
 
-        // Define the hideLoader function
         window.hideLoader = function() {
             $('#loader-container').hide();
         };
         $(document).ready(function() {
-            // Hide the loader initially
             $('#loader-container').show();
-
-            // Example: Simulate a delay and hide the loader after 3 seconds
             setTimeout(hideLoader, 1000);
-
-            // You can call showLoader and hideLoader functions as needed in your application
         });
     </script>
 </head>
 
 <body>
+<div class="wrapper">
     <div id="loader-container">
         <div class="loader"></div>
     </div>
@@ -100,4 +95,3 @@
 
         <section class="content">
             <div class="container-fluid">
-                <div class="wrapper">

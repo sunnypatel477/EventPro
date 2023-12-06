@@ -18,8 +18,6 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
         <li class="nav-item menu-open">
           <ul class="nav nav-treeview">
             <?php if ($this->session->userdata('role') == '1') { ?>
@@ -30,15 +28,19 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="<?php echo base_url('admin/projects'); ?>" class="nav-link <?php echo isset($nav) && $nav == 'projects' ? 'active':'' ?> ">
+                <i class="fa-solid fa-chart-gantt menu-icon"></i>
+                  <p>Projects</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="<?php echo base_url('admin/category'); ?>" class="nav-link <?php echo isset($nav) && $nav == 'category' ? 'active':'' ?> ">
-                  <i class="fa-solid fa-users"></i>
+                <i class="fa-solid fa-layer-group"></i>
                   <p>Category</p>
                 </a>
               </li>
             <?php } ?>
-          </ul>
-         
-          <ul class="nav nav-treeview">
+
             <?php if ($this->session->userdata('role') == '2') { ?>
               <li class="nav-item">
                 <a href="<?php echo base_url('ceo/user'); ?>" class="nav-link <?php echo isset($nav) && $nav == 'users' ? 'active':'' ?> ">

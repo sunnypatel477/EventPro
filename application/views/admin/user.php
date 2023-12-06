@@ -1,4 +1,3 @@
-<!-- make modal open button -->
 
 
 <div class="row">
@@ -107,11 +106,14 @@
 
         //show user list
         var table = $('#user_list').DataTable({
-            info: true,
-            searching: true,
-            paging: true,
-            pageLength: 10,
-            ordering: false,
+            "pageLength": 10,
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
             columnDefs: [{
                     targets: [0, 1, 2, 3, 4],
                     className: "desktop"
@@ -139,7 +141,8 @@
                     data: 'role'
                 },
                 {
-                    data: 'action'
+                    data: 'action',
+                    orderable: false,
                 },
             ],
             responsive: true // Enable responsive extension
