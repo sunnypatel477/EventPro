@@ -29,18 +29,15 @@
                   <p>Users</p>
                 </a>
               </li>
-            <?php } ?>
-          </ul>
-          <ul class="nav nav-treeview">
-            <?php if ($this->session->userdata('role') == '1') { ?>
               <li class="nav-item">
-                <a href="<?php echo base_url('admin/category'); ?>" class="nav-link <?php echo isset($nav) && $nav == 'users' ? 'active':'' ?> ">
+                <a href="<?php echo base_url('admin/category'); ?>" class="nav-link <?php echo isset($nav) && $nav == 'category' ? 'active':'' ?> ">
                   <i class="fa-solid fa-users"></i>
                   <p>Category</p>
                 </a>
               </li>
             <?php } ?>
           </ul>
+         
           <ul class="nav nav-treeview">
             <?php if ($this->session->userdata('role') == '2') { ?>
               <li class="nav-item">

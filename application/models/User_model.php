@@ -32,7 +32,7 @@ class User_model extends CI_Model
 	public function resolve_user_login($email)
 	{
 
-		$this->db->select('password');
+		$this->db->select('*');
 		$this->db->from('user');
 		$this->db->where('email', $email);
 		$query = $this->db->get();

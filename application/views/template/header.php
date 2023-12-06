@@ -9,17 +9,14 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('/asset/datatable/css/jquery.dataTables.min.css'); ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('/asset/datatable/css/responsive.bootstrap.css'); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="<?php echo base_url('/asset/js/jquery.slim.min.js'); ?>" crossorigin="anonymous"></script>
+    <!-- <script src="<?php echo base_url('/asset/js/jquery.slim.min.js'); ?>" crossorigin="anonymous"></script> -->
     <script src="<?php echo base_url('/asset/js/jquery-3.7.0.js'); ?>" crossorigin="anonymous"></script>
+
+    <!-- jQuery UI 1.11.4 -->
+    <script src="<?php echo base_url('plugins/jquery-ui/jquery-ui.min.js'); ?>"></script>
     <script src="<?php echo base_url('/asset/js/jquery.validate.min.js'); ?>" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="<?php echo base_url('/asset/js/additional-methods.min.js'); ?>" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="<?php echo base_url('/asset/toastr/css/toastr.min.css'); ?>">
     <script src="<?php echo base_url('/asset/toastr/js/toastr.min.js'); ?>"></script>
-    <link rel="stylesheet" href="<?php echo base_url('/asset/dropzone/css/dropzone.min.css'); ?>">
-    <script src="<?php echo base_url('/asset/dropzone/js/dropzone.min.js'); ?>"></script>
-    <script src="<?php echo base_url('/asset/select2/js/select2.min.js'); ?>"></script>
-    
-    <link href="<?php echo base_url('/asset/select2/css/select2.min.css'); ?>" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.min.css">
 
     <!-- Google Font: Source Sans Pro -->
@@ -75,32 +72,32 @@
     </div>
 
     <!-- include navbar -->
-<?php $this->load->view('template/navbar'); ?>
+    <?php $this->load->view('template/navbar'); ?>
 
-<!-- include sidebar -->
-<?php $this->load->view('template/sidebar'); ?>
+    <!-- include sidebar -->
+    <?php $this->load->view('template/sidebar'); ?>
 
 
-<div class="content-wrapper">
+    <div class="content-wrapper">
 
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0"><?php echo $content; ?></h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="<?php echo base_url('dashboard'); ?>">Home</a></li>
-              <li class="breadcrumb-item active"><?php echo $content; ?></li>
-            </ol>
-          </div>
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0"><?php echo $content; ?></h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="<?php echo base_url('dashboard'); ?>">Home</a></li>
+                            <li class="breadcrumb-item active"><?php echo $content; ?></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
- 
 
 
-    <section class="content">
-      <div class="container-fluid">
-      <div class="wrapper">
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="wrapper">

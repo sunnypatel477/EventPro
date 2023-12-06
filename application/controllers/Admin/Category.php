@@ -16,7 +16,7 @@ class Category extends CI_Controller
     {
         $data['title'] = 'Admin | Category';
         $data['content'] = 'Category';
-        $data['nav'] = 'users';
+        $data['nav'] = 'category';
 
         //add header and footer file
         $this->load->view('template/header', $data);

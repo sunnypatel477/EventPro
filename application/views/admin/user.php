@@ -23,7 +23,7 @@
                     </thead>
                     <tbody>
                     </tbody>
-
+                </table>
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@
                 </button>
             </div>
             <form id="add_user">
-                <input type="hidden" name="user_id" id="user_id" value="">
+                <!-- <input type="hidden" name="user_id" id="user_id" value=""> -->
                 <div class="modal-body">
                     <!-- add user form -->
                     <div class="form-row">
@@ -70,12 +70,13 @@
 
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
             </form>
         </div>
     </div>
@@ -201,6 +202,7 @@
                             hideLoader();
                             toastr.success(response.message);
                         } else {
+                            hideLoader();
                             toastr.error(response.message);
                         }
                     }
