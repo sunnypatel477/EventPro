@@ -116,7 +116,10 @@ class Project_model extends CI_Model
         $this->db->join('project_status', 'project_status.id = project.status');
         $this->db->join('user', 'user.id = project_team_leader.team_leader_id');
         $this->db->join('user as user1', 'user1.id = project_team_member.team_member_id');
-        $this->db->where('project.added_by', $ceo_id);
+        // where Condition
+        if ($this->session->userdata('role') ==  CEO_ROLE) {
+            $this->db->where('project.added_by', $ceo_id);
+        }
         $this->db->group_by('project.id'); // Group by project ID to get one row per project
         $query = $this->db->get();
         return $query->result_array();
@@ -150,6 +153,26 @@ class Project_model extends CI_Model
 
         $this->db->select('*');
         $this->db->from('project_status');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_team_members()
+    {
+
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where('role', TEAM_MEMBER_ROLE);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function get_team_leaders()
+    {
+
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where('role', TEAM_LEADER_ROLE);
         $query = $this->db->get();
         return $query->result_array();
     }
