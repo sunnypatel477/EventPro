@@ -1,16 +1,21 @@
+<style>
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #007bff !important;
+    }
+</style>
 <section class="content">
     <div class="container-fluid">
-<div class="row">
-    <div class="col-12 mb-3">
-        <button type="button" class="btn btn-primary float-end" id="addProject">Add Project</button>
-    </div>
-    <div class="col-12 mb-3">
-        <div class="card">
-            <div class="card-header">
-                <p>Project List</p>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <button type="button" class="btn btn-primary float-end" id="addProject">Add Project</button>
             </div>
-            <div class="card-body">
-                <!-- <table id="user_list" class="table table-bordered table-striped">
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <p>Project List</p>
+                    </div>
+                    <div class="card-body">
+                        <!-- <table id="user_list" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Sr No.</th>
@@ -23,10 +28,10 @@
                     <tbody>
                     </tbody>
                 </table> -->
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
     </div>
 </section>
 
@@ -42,7 +47,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="add_project" name="add_project">
+            <form id="add_project">
                 <div class="modal-body">
                     <!-- add project form -->
                     <div class="form-row">
@@ -65,26 +70,28 @@
 
                         <div class="col-12 mb-3">
                             <label for="team_leader">Team Leader <span class="text-danger">*</span></label>
-                            <select class="form-control" id="team_leader" name="team_leader" required>
-                                <!-- Add options for team leaders here -->
+                            <select class="team_leader" multiple="multiple" name="team_leader[]" style="width: 100%;" required>
+
+
+
                             </select>
                         </div>
 
                         <div class="col-12 mb-3">
-                            <label for="team_members">Team Members <span class="text-danger">*</span></label>
-                            <select class="form-control" id="team_members" name="team_members[]" multiple required>
-                                <!-- Add options for team members here -->
-                            </select>
+                            <div class="form-group">
+                                <label for="team_member">Team Members <span class="text-danger">*</span></label>
+                                <select class="team_member" name="team_member[]" multiple="multiple" style="width: 100%;">
+
+                                </select>
+                            </div>
                         </div>
 
                         <div class="col-12 mb-3">
                             <label for="project_status">Status <span class="text-danger">*</span></label>
                             <select class="form-control" id="project_status" name="project_status" required>
-                                <option value="in_progress">In Progress</option>
-                                <option value="on_hold">On Hold</option>
-                                <option value="finished">Finished</option>
-                                <option value="not_started">Not Started</option>
-                                <option value="cancelled">Cancelled</option>
+                                <?php foreach ($project_status as $key => $value) { ?>
+                                    <option value="<?php echo $value['id']; ?>"><?php echo $value['status_name']; ?></option>
+                                <?php } ?>
                             </select>
                         </div>
 
@@ -118,5 +125,123 @@
             $('#addProjectModal').modal('show');
             $('#addProjectModal').find('.modal-title').text('Add Project');
         });
+
+        $('.team_leader').select2({
+            placeholder: "Select a Team Leader",
+            allowClear: true
+        });
+
+        $('.team_member').select2({
+            placeholder: "Select a Team Member",
+            allowClear: true
+        });
+
+        $('#ceo_name').change(function() {
+            var ceo_id = $(this).val();
+            $.ajax({
+                url: "<?php echo base_url('admin/projects/get_team_leader'); ?>",
+                type: "POST",
+                data: {
+                    ceo_id: ceo_id
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('.team_leader').empty();
+                    $.each(data, function(key, value) {
+                        $('.team_leader').append($('<option>', {
+                            value: value.id,
+                            text: value.first_name + ' ' + value.last_name
+                        }));
+                    });
+                    $('.team_leader').trigger('change');
+                }
+            });
+
+
+            $.ajax({
+                url: "<?php echo base_url('admin/projects/get_team_member'); ?>",
+                type: "POST",
+                data: {
+                    ceo_id: ceo_id
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('.team_member').empty();
+
+                    $.each(data, function(key, value) {
+                        $('.team_member').append($('<option>', {
+                            value: value.id,
+                            text: value.first_name + ' ' + value.last_name
+                        }));
+                    });
+
+                    $('.team_member').trigger('change');
+                }
+            });
+        });
+
+
+         //form submit use validate js
+         $('#add_project').validate({
+            rules: {
+                project_name: {
+                    required: true,
+                },
+                team_leader: {
+                    required: true,
+                },
+                team_members: {
+                    required: true,
+                },
+                project_status: {
+                    required: true,
+                },
+                start_date: {
+                    required: true,
+                },
+            },
+            messages: {
+                project_name: {
+                    required: "Please enter project name",
+                },
+                team_leader: {
+                    required: "Please select team leader",
+                },
+                team_members: {
+                    required: "Please select team members",
+                },
+                project_status: {
+                    required: "Please select project status",
+                },
+                start_date: {
+                    required: "Please select start date",
+                },
+            },
+            submitHandler: function(form) {
+                showLoader();
+                var url = "<?php echo base_url('admin/project/add_project') ?>";
+                var data = $('#add_project').serialize();
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status == 1) {
+                            hideLoader();
+                            $('#addProjectModal').modal('hide');
+                            $('#add_project')[0].reset();
+
+                            toastr.success(response.message);
+                            $('#project_list').DataTable().ajax.reload();
+                        } else {
+                            hideLoader();
+                            toastr.error(response.message);
+                        }
+                    }
+                });
+            }
+        });
+
     });
 </script>

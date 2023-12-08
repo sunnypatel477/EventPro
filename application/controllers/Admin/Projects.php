@@ -1,10 +1,11 @@
-<?php 
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 
 
-class Projects extends CI_Controller {
+class Projects extends CI_Controller
+{
 
     public function __construct()
     {
@@ -33,6 +34,22 @@ class Projects extends CI_Controller {
         $this->template->rander('admin/projects', $data);
     }
 
+    //get_team_leader
+    public function get_team_leader()
+    {
+        $ceo_id = $this->input->post('ceo_id');
+        $team_leaders = $this->project_model->get_team_leaders_by_ceo($ceo_id);
+        echo json_encode($team_leaders);
+    }
 
+    //get_team_member
+    public function get_team_member()
+    {
+        $ceo_id = $this->input->post('ceo_id');
+        $team_members = $this->project_model->get_team_members_by_ceo($ceo_id);
+        echo json_encode($team_members);
+    }
 
+    //add_project
+    
 }
