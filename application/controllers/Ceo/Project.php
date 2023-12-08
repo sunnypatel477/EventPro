@@ -94,12 +94,14 @@ class Project extends CI_Controller
                         'start_date' => $value['start_date'],
                         'team_leader' => $value['team_leaders'],
                         'team_member' => $value['team_members'],
+                        'status' => $value['status_name'],
                         'action' => ' <a href="javascript:void(0);" data-id="'.$value['id'].'" class="btn btn-sm btn-danger delete_project"><i class="fa fa-trash"></i></a>',
                     );
                 }
             }
     
             $output = array(
+                
                 "data" => $data
             );
 

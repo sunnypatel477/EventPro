@@ -2,31 +2,31 @@
 
 <section class="content">
     <div class="container-fluid">
-<div class="row">
-    <div class="col-12 mb-3">
-        <button type="button" class="btn btn-primary float-end" id="addcategory">Add Category</button>
-    </div>
-    <div class="col-12 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <div class="table_div table-responsive">
-                    <table class="table" id="category_list">
-                        <thead>
-                            <tr>
-                                <th scope="col">Sr.No</th>
-                                <th scope="col">Category Name</th>
-                                <th scope="col">Color</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+        <div class="row">
+            <div class="col-12 mb-3">
+                <button type="button" class="btn btn-primary float-end" id="addcategory">Add Category</button>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table_div table-responsive">
+                            <table class="table" id="category_list">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Sr.No</th>
+                                        <th scope="col">Category Name</th>
+                                        <th scope="col">Color</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
     </div>
 </section>
 
@@ -48,11 +48,14 @@
                         <input type="hidden" name="hid" id="hid" value="<?php echo isset($categoryData) ? $categoryData['id'] : '' ?>">
                         <div class="col-12">
                             <label for="category_name">Category Name</label>
-                            <input type="text" class="form-control" id="category_name" value="<?php echo isset($categoryData) ? $categoryData['category_name'] : '' ?>" name="category_name">
+                            <input type="text" class="form-control" id="category_name" value="" name="category_name">
                         </div>
                         <div class="col-12">
-                            <label for="category_color">Color</label>
-                            <input type="color" class="form-control" id="category_color" value="<?php echo isset($categoryData) ? $categoryData['category_color'] : '' ?>" name="category_color">
+
+                            <div class="form-group">
+                                <label for="category_color">Color picker:</label>
+                                <input type="text" class="form-control my-colorpicker1" id="category_color" value="" name="category_color">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -76,7 +79,8 @@
             $('#add_category_model').modal('hide');
         });
 
-
+        //Colorpicker
+        $('.my-colorpicker1').colorpicker()
         //validate form  use validate js and submit data to database
         $('#add_category').validate({
             rules: {
@@ -104,8 +108,8 @@
                         if (data.status == 1) {
                             toastr.success(data.message);
                             $('#add_category_model').modal('hide');
-                                $('#add_category')[0].reset();
-                                $('#category_list').DataTable().ajax.reload();
+                            $('#add_category')[0].reset();
+                            $('#category_list').DataTable().ajax.reload();
                             hideLoader();
                         } else {
                             toastr.error(data.message);
@@ -118,16 +122,24 @@
                 });
             }
         });
-    });
-
-    $(document).ready(function() {
         $('#category_list').DataTable({
-            searching: true,
-            paging: true,
-            info: true,
-            responsive: true,
-            paging: true,
-            scrollCollapse: true,
+            "pageLength": 10,
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            columnDefs: [{
+                    targets: [0, 1],
+                    className: "desktop"
+                },
+                {
+                    targets: [0, 1],
+                    className: "tablet mobile"
+                },
+            ],
             ajax: {
                 url: '<?= base_url('admin/category/get_category_list') ?>',
                 type: 'POST',
@@ -147,6 +159,8 @@
             ],
         });
     });
+
+   
 
     $(document).on("click", ".edit-category", function() {
         var id = $(this).data("id");

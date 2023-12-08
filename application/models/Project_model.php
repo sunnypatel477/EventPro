@@ -109,10 +109,11 @@ class Project_model extends CI_Model
     public function get_project_by_ceo($ceo_id)
     {
 
-        $this->db->select('project.*, GROUP_CONCAT(DISTINCT user.first_name) as team_leaders, GROUP_CONCAT(user1.first_name) as team_members');
+        $this->db->select('project.*, GROUP_CONCAT(DISTINCT user.first_name) as team_leaders, GROUP_CONCAT(user1.first_name) as team_members, project_status.status_name');
         $this->db->from('project');
         $this->db->join('project_team_leader', 'project_team_leader.project_id = project.id');
         $this->db->join('project_team_member', 'project_team_member.project_id = project.id');
+        $this->db->join('project_status', 'project_status.id = project.status');
         $this->db->join('user', 'user.id = project_team_leader.team_leader_id');
         $this->db->join('user as user1', 'user1.id = project_team_member.team_member_id');
         $this->db->where('project.added_by', $ceo_id);

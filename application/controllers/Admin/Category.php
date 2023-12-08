@@ -51,7 +51,7 @@ class Category extends CI_Controller
 
         $table_data = array();
         foreach ($categories as $key => $category) {
-            $action = '<a href="javascript:void(0);" class="edit-category" data-id="' . $category['id'] . '"><i class="fas fa-edit"></i></a> <a href="javascript:void(0);" class="delete-category" data-id="' . $category['id'] . '" > /<i class="fa fa-trash" aria-hidden="true"></i></a>';
+            $action = '<a href="javascript:void(0);" class="btn btn-sm btn-primary  edit-category" data-id="' . $category['id'] . '"><i class="fas fa-edit"></i></a> <a href="javascript:void(0);" class="btn btn-sm btn-danger delete-category" data-id="' . $category['id'] . '" > <i class="fa fa-trash" aria-hidden="true"></i></a>';
             $table_data[] = array(
                 'SrNo' => $key + 1,
                 'Name' => $category['category_name'],

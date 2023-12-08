@@ -23,6 +23,7 @@
                                     <th scope="col">Start Date</th>
                                     <th scope="col">Team Leaders</th>
                                     <th scope="col">Team Members</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -74,7 +75,7 @@
                                 <label for="team_member">Team Members <span class="text-danger">*</span></label>
                                 <select class="team_member" name="team_member[]" multiple="multiple" style="width: 100%;">
                                     <?php foreach ($team_members as $key => $value) { ?>
-                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . '' . $value['last_name'] ?></option>
+                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -126,6 +127,8 @@
 
         $('#addProjectModal').on('hidden.bs.modal', function() {
             $('#add_project')[0].reset();
+            $('.team_leader').val([]).trigger('change');
+            $('.team_member').val([]).trigger('change');
         });
 
         //form submit use validate js
@@ -192,12 +195,23 @@
 
         //list_table
         $('#project_list').DataTable({
-            searching: true,
-            paging: true,
-            info: true,
-            responsive: true,
-            paging: true,
-            scrollCollapse: true,
+            "pageLength": 10,
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            columnDefs: [{
+                    targets: [0, 1, 5],
+                    className: "desktop"
+                },
+                {
+                    targets: [0, 1,5],
+                    className: "tablet mobile"
+                },
+            ],
             ajax: {
                 url: '<?= base_url('ceo/project/list_table') ?>',
                 type: 'POST',
@@ -218,7 +232,12 @@
                     data: 'team_member'
                 },
                 {
-                    data: 'action'
+                    data: 'status'
+                },
+                {
+                    data: 'action',
+                    orderable: false,
+
                 },
             ]
         });
