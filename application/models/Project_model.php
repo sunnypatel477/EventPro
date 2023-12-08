@@ -150,6 +150,6 @@ class Project_model extends CI_Model
         $this->db->select('*');
         $this->db->from('project_status');
         $query = $this->db->get();
-        return $query->row_array();
+        return $query->result_array();
     }
 }
