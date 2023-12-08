@@ -108,7 +108,7 @@ class Projects extends CI_Controller
             exit('No direct script access allowed');
         } else {
             $list_table = $this->project_model->get_project_by_ceo($this->session->userdata('id'));
-            
+
             $data = array();
             if (!empty($list_table)) {
                 foreach ($list_table as $key => $value) {
@@ -119,7 +119,7 @@ class Projects extends CI_Controller
                         'start_date' => $value['start_date'],
                         'team_leader' => $value['team_leaders'],
                         'team_member' => $value['team_members'],
-                        'action' => ' <a href="javascript:void(0);" data-id="' . $value['id'] . '" class="btn btn-sm btn-danger delete_project"><i class="fa fa-trash"></i></a>',
+                        'action' => ' <a href="javascript:void(0);" class="btn btn-sm btn-danger delete_project" data-id="' . $value['id'] . '" ><i class="fa fa-trash"></i></a>',
                     );
                 }
             }
@@ -130,6 +130,37 @@ class Projects extends CI_Controller
 
             echo json_encode($output);
             exit;
+        }
+    }
+    public function delete_project()
+    {
+        $project_id = $this->input->post('id');
+
+        if ($project_id) {
+            $this->project_model->delete_project($project_id);
+            $response['status'] = 1;
+            $response['message'] = 'Project data Deleted successfully';
+        } else {
+            $response['status'] = 0;
+            $response['message'] = 'project data not deleted';
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+    
+    public function check_project()
+    {
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        } else {
+            $project_name = $this->input->post('project_name');
+            $result = $this->project_model->check_project($project_name);
+            if ($result) {
+                echo json_encode(FALSE);
+            } else {
+                echo json_encode(TRUE);
+            }
         }
     }
 }

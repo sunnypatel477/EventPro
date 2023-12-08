@@ -9,7 +9,6 @@ class Project extends CI_Controller
         parent::__construct();
         //load project model
         $this->load->model('project_model');
-
     }
 
 
@@ -37,19 +36,19 @@ class Project extends CI_Controller
         $this->form_validation->set_rules('team_leader[]', 'Team Leader', 'required');
         $this->form_validation->set_rules('team_member[]', 'Team Member', 'required');
         $this->form_validation->set_rules('start_date', 'Start Date', 'required');
-   
+
         if ($this->form_validation->run() == FALSE) {
             echo json_encode(['status' => FALSE, 'message' => validation_errors()]);
         } else {
 
             $data = array(
-                'project_name' => $this->input->post('project_name'),        
+                'project_name' => $this->input->post('project_name'),
                 'start_date' => $this->input->post('start_date'),
                 'status' => $this->input->post('project_status'),
                 'added_by' => $this->session->userdata('id'),
                 'date_created' => date('Y-m-d H:i:s'),
             );
-            
+
             $result = $this->project_model->add_project($data);
             if ($result) {
                 $team_leader = $this->input->post('team_leader');
@@ -79,7 +78,8 @@ class Project extends CI_Controller
     }
 
     //list_table
-    public function list_table(){
+    public function list_table()
+    {
         if (!$this->input->is_ajax_request()) {
             exit('No direct script access allowed');
         } else {
@@ -95,18 +95,50 @@ class Project extends CI_Controller
                         'team_leader' => $value['team_leaders'],
                         'team_member' => $value['team_members'],
                         'status' => $value['status_name'],
-                        'action' => ' <a href="javascript:void(0);" data-id="'.$value['id'].'" class="btn btn-sm btn-danger delete_project"><i class="fa fa-trash"></i></a>',
+                        'action' => ' <a href="javascript:void(0);" data-id="' . $value['id'] . '" class="btn btn-sm btn-danger delete_project"><i class="fa fa-trash"></i></a>',
                     );
                 }
             }
-    
+
             $output = array(
-                
+
                 "data" => $data
             );
 
             echo json_encode($output);
             exit;
+        }
+    }
+
+    public function delete_project()
+    {
+        $project_id = $this->input->post('id');
+
+        if ($project_id) {
+            $this->project_model->delete_project($project_id);
+            $response['status'] = 1;
+            $response['message'] = 'Project data Deleted successfully';
+        } else {
+            $response['status'] = 0;
+            $response['message'] = 'project data not deleted';
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    public function check_project()
+    {
+        if (!$this->input->is_ajax_request()) {
+            exit('No direct script access allowed');
+        } else {
+            $project_name = $this->input->post('project_name');
+            $result = $this->project_model->check_project($project_name);
+            if ($result) {
+                echo json_encode(FALSE);
+            } else {
+                echo json_encode(TRUE);
+            }
         }
     }
 }

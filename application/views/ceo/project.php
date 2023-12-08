@@ -131,11 +131,65 @@
             $('.team_member').val([]).trigger('change');
         });
 
+        // list_table
+        $('#project_list').DataTable({
+            "pageLength": 10,
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            columnDefs: [{
+                    targets: [0, 1, 5],
+                    className: "desktop"
+                },
+                {
+                    targets: [0, 1, 5],
+                    className: "tablet mobile"
+                },
+            ],
+            ajax: {
+                url: '<?= base_url('ceo/project/list_table') ?>',
+                type: 'POST',
+            },
+            columns: [{
+                    data: 'sr_no'
+                },
+                {
+                    data: 'project_name'
+                },
+                {
+                    data: 'start_date'
+                },
+                {
+                    data: 'team_leader'
+                },
+                {
+                    data: 'team_member'
+                },
+                {
+                    data: 'status'
+                },
+                {
+                    data: 'action',
+                    orderable: false,
+
+                },
+            ],
+            responsive: true
+        });
+
         //form submit use validate js
         $('#add_project').validate({
             rules: {
                 project_name: {
                     required: true,
+                    remote: {
+                        url: "<?php echo base_url('ceo/project/check_project'); ?>",
+                        type: "post"
+                    }
                 },
                 team_leader: {
                     required: true,
@@ -153,6 +207,7 @@
             messages: {
                 project_name: {
                     required: "Please enter project name",
+                    remote: "Project already exist"
                 },
                 team_leader: {
                     required: "Please select team leader",
@@ -192,78 +247,33 @@
                 });
             }
         });
+    });
 
-        //list_table
-        $('#project_list').DataTable({
-            "pageLength": 10,
-            "paging": true,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-            columnDefs: [{
-                    targets: [0, 1, 5],
-                    className: "desktop"
-                },
-                {
-                    targets: [0, 1,5],
-                    className: "tablet mobile"
-                },
-            ],
-            ajax: {
-                url: '<?= base_url('ceo/project/list_table') ?>',
+
+    //Delete Project
+    $(document).on('click', '.delete_project', function() {
+        var id = $(this).data('id');
+        var url = "<?php echo base_url('ceo/project/delete_project') ?>";
+        if (confirm('Are you sure you want to delete this project?')) {
+            showLoader();
+            $.ajax({
+                url: url,
                 type: 'POST',
-            },
-            columns: [{
-                    data: 'sr_no'
+                data: {
+                    id: id
                 },
-                {
-                    data: 'project_name'
-                },
-                {
-                    data: 'start_date'
-                },
-                {
-                    data: 'team_leader'
-                },
-                {
-                    data: 'team_member'
-                },
-                {
-                    data: 'status'
-                },
-                {
-                    data: 'action',
-                    orderable: false,
-
-                },
-            ]
-        });
-
-        //delete_user
-        $(document).on('click', '.delete_project', function() {
-            var id = $(this).data('id');
-            var url = "<?php echo base_url('ceo/projects/delete_project') ?>";
-            if (confirm('Are you sure you want to delete this project?')) {
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: {
-                        id: id
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status == 1) {
-                            toastr.success(response.message);
-                            $('#project_list').DataTable().ajax.reload();
-                        } else {
-                            toastr.error(response.message);
-                        }
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 1) {
+                        hideLoader();
+                        toastr.success(response.message);
+                        $('#project_list').DataTable().ajax.reload();
+                    } else {
+                        hideLoader();
+                        toastr.error(response.message);
                     }
-                });
-            }
-        });
+                }
+            });
+        }
     });
 </script>

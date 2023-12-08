@@ -183,12 +183,54 @@
             });
         });
 
+        $('#addProjectModal').on('hidden.bs.modal', function() {
+            $('#add_project')[0].reset();
+            $('.team_leader').val([]).trigger('change');
+            $('.team_member').val([]).trigger('change');
+        });
+        
+        //list_table
+        var table = $('#project_list').DataTable({
+            searching: true,
+            paging: true,
+            info: true,
+            responsive: true,
+            paging: true,
+            scrollCollapse: true,
+            ajax: {
+                url: '<?= base_url('admin/projects/list_table') ?>',
+                type: 'POST',
+            },
+            columns: [{
+                    data: 'sr_no'
+                },
+                {
+                    data: 'project_name'
+                },
+                {
+                    data: 'start_date'
+                },
+                {
+                    data: 'team_leader'
+                },
+                {
+                    data: 'team_member'
+                },
+                {
+                    data: 'action'
+                },
+            ]
+        });
 
         //form submit use validate js
         $('#add_project').validate({
             rules: {
                 project_name: {
                     required: true,
+                    remote: {
+                        url: "<?php echo base_url('admin/projects/check_project'); ?>",
+                        type: "post"
+                    }
                 },
                 team_leader: {
                     required: true,
@@ -206,6 +248,7 @@
             messages: {
                 project_name: {
                     required: "Please enter project name",
+                    remote: "Project already exist"
                 },
                 team_leader: {
                     required: "Please select team leader",
@@ -246,60 +289,32 @@
                 });
             }
         });
-        //list_table
-        $('#project_list').DataTable({
-            searching: true,
-            paging: true,
-            info: true,
-            responsive: true,
-            paging: true,
-            scrollCollapse: true,
-            ajax: {
-                url: '<?= base_url('admin/projects/list_table') ?>',
+    });
+
+    // Delete Project
+    $(document).on('click', '.delete_project', function() {
+        var id = $(this).data('id');
+        var url = "<?php echo base_url('admin/projects/delete_project') ?>";
+        if (confirm('Are you sure you want to delete this project?')) {
+            showLoader();
+            $.ajax({
+                url: url,
                 type: 'POST',
-            },
-            columns: [{
-                    data: 'sr_no'
+                data: {
+                    id: id
                 },
-                {
-                    data: 'project_name'
-                },
-                {
-                    data: 'start_date'
-                },
-                {
-                    data: 'team_leader'
-                },
-                {
-                    data: 'team_member'
-                },
-                {
-                    data: 'action'
-                },
-            ]
-        });
-        
-        $(document).on('click', '.delete_project', function() {
-            var id = $(this).data('id');
-            var url = "<?php echo base_url('admin/projects/delete_project') ?>";
-            if (confirm('Are you sure you want to delete this project?')) {
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: {
-                        id: id
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status == 1) {
-                            toastr.success(response.message);
-                            $('#project_list').DataTable().ajax.reload();
-                        } else {
-                            toastr.error(response.message);
-                        }
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 1) {
+                        hideLoader();
+                        toastr.success(response.message);
+                        $('#project_list').DataTable().ajax.reload();
+                    } else {
+                        hideLoader();
+                        toastr.error(response.message);
                     }
-                });
-            }
-        });
+                }
+            });
+        }
     });
 </script>

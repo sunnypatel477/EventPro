@@ -26,6 +26,7 @@ class Category_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('category');
+        $this->db->where('category.is_delete', 0);
         $query = $this->db->get();
         return $query->result_array();
     }
@@ -43,8 +44,9 @@ class Category_model extends CI_Model
     public function delete_category($category_id)
     {
         if ($category_id > 0) {
+            $data = array('is_delete' => 1);
             $this->db->where('id', $category_id);
-            $this->db->delete('category');
+            $this->db->update('category', $data);
             return true;
         }
         return false;

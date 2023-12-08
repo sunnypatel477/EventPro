@@ -120,6 +120,7 @@ class Project_model extends CI_Model
         if ($this->session->userdata('role') ==  CEO_ROLE) {
             $this->db->where('project.added_by', $ceo_id);
         }
+        $this->db->where('project.is_delete', 0);
         $this->db->group_by('project.id'); // Group by project ID to get one row per project
         $query = $this->db->get();
         return $query->result_array();
@@ -176,4 +177,33 @@ class Project_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function delete_project($project_id)
+    {
+        if ($project_id > 0) {
+            $data = array('is_delete' => 1);
+            $this->db->where('id', $project_id);
+            $this->db->update('project', $data);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+	 * check_project function.
+	 * 
+	 * @access public
+	 * @param mixed $project
+	 * @return bool true on success, false on failure
+	 */
+	public function check_project($project)
+	{
+
+		$this->db->select('*');
+		$this->db->from('project');
+		$this->db->where('project_name', $project);
+        $this->db->where('is_delete', 0);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
 }
