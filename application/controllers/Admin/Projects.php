@@ -26,6 +26,9 @@ class Projects extends CI_Controller {
         //get ceo list
         $data['ceo_list'] = $this->project_model->get_ceo_list();
 
+        //get project status
+        $data['project_status'] = $this->project_model->get_project_status();
+
 
         $this->template->rander('admin/projects', $data);
     }

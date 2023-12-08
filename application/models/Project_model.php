@@ -136,4 +136,20 @@ class Project_model extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    /**
+     * get_project_status function.
+     * 
+     * @access public
+     *
+     * @return bool true on success, false on failure
+     */
+    public function get_project_status()
+    {
+
+        $this->db->select('*');
+        $this->db->from('project_status');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
 }
