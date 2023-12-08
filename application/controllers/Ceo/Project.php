@@ -23,6 +23,9 @@ class Project extends CI_Controller
         $data['team_leaders'] = $this->project_model->get_team_leaders_by_ceo($this->session->userdata('id'));
         //get team members list
         $data['team_members'] = $this->project_model->get_team_members_by_ceo($this->session->userdata('id'));
+
+        $data['status'] = $this->project_model->get_project_status($this->session->userdata('id'));
+
         $this->template->rander('ceo/project', $data);
     }
 
@@ -38,13 +41,15 @@ class Project extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             echo json_encode(['status' => FALSE, 'message' => validation_errors()]);
         } else {
-       
+
             $data = array(
                 'project_name' => $this->input->post('project_name'),        
                 'start_date' => $this->input->post('start_date'),
+                'status' => $this->input->post('project_status'),
                 'added_by' => $this->session->userdata('id'),
                 'date_created' => date('Y-m-d H:i:s'),
             );
+            
             $result = $this->project_model->add_project($data);
             if ($result) {
                 $team_leader = $this->input->post('team_leader');

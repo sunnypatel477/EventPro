@@ -16,19 +16,19 @@
                     </div>
                     <div class="card-body">
                         <table id="project_list" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Sr No.</th>
-                            <th scope="col">Project Name</th>
-                            <th scope="col">Start Date</th>
-                            <th scope="col">Team Leaders</th>
-                            <th scope="col">Team Members</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sr No.</th>
+                                    <th scope="col">Project Name</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">Team Leaders</th>
+                                    <th scope="col">Team Members</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,9 @@
                         <div class="col-12 mb-3">
                             <label for="project_status">Status <span class="text-danger">*</span></label>
                             <select class="form-control" id="project_status" name="project_status" required>
-                             
+                                <?php foreach ($status as $key => $value) { ?>
+                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['status_name'] ?></option>
+                                <?php } ?>
                             </select>
                         </div>
 
