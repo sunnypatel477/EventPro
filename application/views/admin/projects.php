@@ -15,19 +15,20 @@
                         <p>Project List</p>
                     </div>
                     <div class="card-body">
-                        <!-- <table id="user_list" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Sr No.</th>
-                            <th scope="col">User Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Role</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table> -->
+                        <table id="project_list" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sr No.</th>
+                                    <th scope="col">Project Name</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">Team Leaders</th>
+                                    <th scope="col">Team Members</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -71,9 +72,9 @@
                         <div class="col-12 mb-3">
                             <label for="team_leader">Team Leader <span class="text-danger">*</span></label>
                             <select class="team_leader" multiple="multiple" name="team_leader[]" style="width: 100%;" required>
-
-
-
+                                <?php foreach ($team_leaders as $key => $value) { ?>
+                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . '' . $value['last_name'] ?></option>
+                                <?php } ?>
                             </select>
                         </div>
 
@@ -81,7 +82,9 @@
                             <div class="form-group">
                                 <label for="team_member">Team Members <span class="text-danger">*</span></label>
                                 <select class="team_member" name="team_member[]" multiple="multiple" style="width: 100%;">
-
+                                    <?php foreach ($team_members as $key => $value) { ?>
+                                        <option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . '' . $value['last_name'] ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                         </div>
@@ -181,8 +184,8 @@
         });
 
 
-         //form submit use validate js
-         $('#add_project').validate({
+        //form submit use validate js
+        $('#add_project').validate({
             rules: {
                 project_name: {
                     required: true,
@@ -219,7 +222,7 @@
             },
             submitHandler: function(form) {
                 showLoader();
-                var url = "<?php echo base_url('admin/project/add_project') ?>";
+                var url = "<?php echo base_url('admin/projects/add_project') ?>";
                 var data = $('#add_project').serialize();
                 $.ajax({
                     url: url,
@@ -230,8 +233,9 @@
                         if (response.status == 1) {
                             hideLoader();
                             $('#addProjectModal').modal('hide');
-                            $('#add_project')[0].reset();
-
+                            // $('#add_project')[0].reset();
+                            $('.team_leader').val([]).trigger('change');
+                            $('.team_member').val([]).trigger('change');
                             toastr.success(response.message);
                             $('#project_list').DataTable().ajax.reload();
                         } else {
@@ -242,6 +246,60 @@
                 });
             }
         });
-
+        //list_table
+        $('#project_list').DataTable({
+            searching: true,
+            paging: true,
+            info: true,
+            responsive: true,
+            paging: true,
+            scrollCollapse: true,
+            ajax: {
+                url: '<?= base_url('admin/projects/list_table') ?>',
+                type: 'POST',
+            },
+            columns: [{
+                    data: 'sr_no'
+                },
+                {
+                    data: 'project_name'
+                },
+                {
+                    data: 'start_date'
+                },
+                {
+                    data: 'team_leader'
+                },
+                {
+                    data: 'team_member'
+                },
+                {
+                    data: 'action'
+                },
+            ]
+        });
+        
+        $(document).on('click', '.delete_project', function() {
+            var id = $(this).data('id');
+            var url = "<?php echo base_url('admin/projects/delete_project') ?>";
+            if (confirm('Are you sure you want to delete this project?')) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status == 1) {
+                            toastr.success(response.message);
+                            $('#project_list').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    }
+                });
+            }
+        });
     });
 </script>
