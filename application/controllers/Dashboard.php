@@ -17,10 +17,7 @@ class Dashboard extends CI_Controller {
         $data['content'] = 'Dashboard';
         
 
-        //add header and footer file
-        $this->load->view('template/header', $data);
-        $this->load->view('dashboard');
-        $this->load->view('template/footer');
+        $this->template->rander('dashboard', $data);
     }
 
 }

@@ -1,6 +1,7 @@
 <!-- make modal open button -->
 
-
+<section class="content">
+    <div class="container-fluid">
 <div class="row">
     <div class="col-12 mb-3">
         <button type="button" class="btn btn-primary float-end" id="addcategory">Add Category</button>
@@ -26,6 +27,8 @@
         </div>
     </div>
 </div>
+    </div>
+</section>
 
 <!-- Modal -->
 <div class="modal fade" id="add_category_model" tabindex="-1" role="dialog" aria-labelledby="add_category_modelLabel" aria-hidden="true">
@@ -91,9 +94,7 @@
             },
             submitHandler: function(form) {
                 var id = $(this).data("id");
-                console.log(id)
                 var formData = new FormData(form);
-                console.log(formData)
                 showLoader();
                 $.ajax({
                     url: "<?php echo base_url('admin/category/add_category'); ?>",
@@ -102,12 +103,10 @@
                     success: function(data) {
                         if (data.status == 1) {
                             toastr.success(data.message);
-                            hideLoader();
-                            setTimeout(function() {
-                                $('#add_category_model').modal('hide');
+                            $('#add_category_model').modal('hide');
                                 $('#add_category')[0].reset();
-                                location.reload();
-                            }, 2000);
+                                $('#category_list').DataTable().ajax.reload();
+                            hideLoader();
                         } else {
                             toastr.error(data.message);
                             hideLoader();

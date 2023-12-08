@@ -37,7 +37,9 @@
     <!-- Scripts -->
     <!-- jQuery -->
     <script src="<?php echo base_url('/asset/js/jquery-3.7.0.js'); ?>" crossorigin="anonymous"></script>
-   
+    <script src="<?php echo base_url('/plugins/select2/js/select2.full.min.js'); ?>"></script>
+    <link rel="stylesheet" href="<?php echo base_url('plugins/select2/css/select2.min.css'); ?>">
+
 
 
 
@@ -74,24 +76,29 @@
 
 
     <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0"><?php echo isset($content) ? $content :'' ?></h1>
+          </div><!-- /.col -->
+        
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <?php 
+    $this->load->view($content_view);
+    ?>
+    </div>
+    <!-- include footer -->
+    <footer class="main-footer">
+    <strong>Copyright &copy; 2023.</strong>
+    All rights reserved.
 
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0"><?php echo $content; ?></h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?php echo base_url('dashboard'); ?>">Home</a></li>
-                            <li class="breadcrumb-item active"><?php echo $content; ?></li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
+  </footer>
+    
+</div>
+<?php $this->load->view('template/footer'); ?>
 
 
-
-        <section class="content">
-            <div class="container-fluid">
+    

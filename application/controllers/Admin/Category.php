@@ -21,10 +21,7 @@ class Category extends CI_Controller
         $data['content'] = 'Category';
         $data['nav'] = 'category';
 
-        //add header and footer file
-        $this->load->view('template/header', $data);
-        $this->load->view('admin/category');
-        $this->load->view('template/footer');
+        $this->template->rander('admin/category', $data);
     }
 
     public function add_category()

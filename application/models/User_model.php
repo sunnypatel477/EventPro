@@ -104,11 +104,10 @@ class User_model extends CI_Model
 		//left join
 		$this->db->join('user_role', 'user.role = user_role.id', 'left');
 		//where condition
-		if ($this->session->userdata('role') == 2) {
-			$this->db->where('user.role !=', 1);
-			$this->db->where('user.role !=', 2);
+		if ($this->session->userdata('role') == CEO_ROLE) {
+			$this->db->where('user.added_by', $this->session->userdata('id'));
 		} else {
-			$this->db->where('user.role !=', 1);
+			$this->db->where('user.role !=', ADMIN_ROLE);
 		}
 		$query = $this->db->get();
 		return $query->result();

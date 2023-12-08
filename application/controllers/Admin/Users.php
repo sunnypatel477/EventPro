@@ -22,10 +22,7 @@ class Users extends CI_Controller {
         $data['content'] = 'Users';
         $data['nav'] = 'users';
 
-        //add header and footer file
-        $this->load->view('template/header', $data);
-        $this->load->view('admin/user');
-        $this->load->view('template/footer');
+        $this->template->rander('admin/user', $data);
     }
 
     //check mail is unique or not

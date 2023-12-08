@@ -1,6 +1,7 @@
 <!-- make modal open button -->
 
-
+<section class="content">
+    <div class="container-fluid">
 <div class="row">
     <div class="col-12 mb-3">
         <button type="button" class="btn btn-primary float-end" id="addUser">Add User</button>
@@ -27,6 +28,8 @@
         </div>
     </div>
 </div>
+    </div>
+</section>
 
 <!-- Modal -->
 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">

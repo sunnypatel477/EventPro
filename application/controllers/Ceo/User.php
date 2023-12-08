@@ -17,9 +17,7 @@ class User extends CI_Controller
         $data['nav'] = 'users';
 
         //add header and footer file
-        $this->load->view('template/header', $data);
-        $this->load->view('ceo/user');
-        $this->load->view('template/footer');
+        $this->template->rander('ceo/user', $data);
     }
     public function add_user()
     {
