@@ -40,7 +40,7 @@ class Project extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             echo json_encode(['status' => FALSE, 'message' => validation_errors()]);
         } else {
-         
+
             $data = array(
                 'project_name' => $this->input->post('project_name'),
                 'start_date' => $this->input->post('start_date'),
@@ -53,21 +53,22 @@ class Project extends CI_Controller
             if ($result) {
                 $team_leader = $this->input->post('team_leader');
                 $team_member = $this->input->post('team_member');
-                $project_id = $result;
+
+                $project_id = $this->db->insert_id();
                 //insert full team member
                 foreach ($team_leader as $key => $value) {
-                  foreach($team_member as $key1 => $value1){
-                    $data = array(
+                    foreach ($team_member[$key] as $key1 => $value1) {
+                      $team_data = array(
                         'project_id' => $project_id,
                         'team_leader' => $value,
                         'team_member' => $value1,
                         'added_by' => $this->session->userdata('id'),
                         'date_created' => date('Y-m-d H:i:s'),
-                    );
-                    $this->project_model->add_project_team($data);
-                  }
+                      );
+                        $this->project_model->add_project_team($team_data);
+                    }
                 }
-                
+
                 echo json_encode(['status' => TRUE, 'message' => 'Project added successfully.']);
             } else {
                 echo json_encode(['status' => FALSE, 'message' => 'Project not added successfully.']);
