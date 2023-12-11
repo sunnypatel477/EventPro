@@ -40,6 +40,9 @@ class Project extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             echo json_encode(['status' => FALSE, 'message' => validation_errors()]);
         } else {
+            echo '<pre>';
+            print_r($this->input->post());
+            die;
 
             $data = array(
                 'project_name' => $this->input->post('project_name'),

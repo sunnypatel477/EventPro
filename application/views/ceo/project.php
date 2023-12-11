@@ -41,7 +41,7 @@
 
 <!-- project modal -->
 <div class="modal fade" id="addProjectModal" tabindex="-1" role="dialog" aria-labelledby="addProjectModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add Project</h5>
@@ -54,34 +54,40 @@
                     <!-- add project form -->
                     <div class="form-row">
                         <input type="hidden" name="hid" id="hid" value="<?php echo isset($projectData) ? $projectData['id'] : '' ?>">
-                        <div class="col-12 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label for="project_name">Project Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="project_name" id="project_name" value="" required>
                         </div>
 
-                        <div class="col-12 mb-3">
-                            <label for="team_leader">Team Leader <span class="text-danger">*</span></label>
-                            <select class="team_leader" multiple="multiple" name="team_leader[]" style="width: 100%;" required>
-
-                                <?php foreach ($team_leaders as $key => $value) { ?>
-                                    <option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . '' . $value['last_name'] ?></option>
-                                <?php } ?>
-
-                            </select>
-                        </div>
-
-                        <div class="col-12 mb-3">
-                            <div class="form-group">
-                                <label for="team_member">Team Members <span class="text-danger">*</span></label>
-                                <select class="team_member" name="team_member[]" multiple="multiple" style="width: 100%;">
-                                    <?php foreach ($team_members as $key => $value) { ?>
+                        <div class="tem_list" style="display: contents;">
+                         
+                            <div class="col-md-5 mb-3">
+                                <label for="team_leader">Team Leader <span class="text-danger">*</span></label>
+                                <select class="team_leader form-control" name="team_leader" style="width: 100%;" required>
+                                    <?php foreach ($team_leaders as $key => $value) { ?>
                                         <option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
+
+                            <div class="col-md-5 mb-3">
+                                <div class="form-group">
+                                    <label for="team_member">Team Members <span class="text-danger">*</span></label>
+                                    <select class="team_member" name="team_member[]" multiple="multiple" style="width: 100%;">
+                                        <?php foreach ($team_members as $key => $value) { ?>
+                                            <option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 mb-3" style="padding: 28px;">
+                                <a href="JavaScript:void(0);" id="add_team" class="btn btn-primary float-end"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                            </div>
                         </div>
 
-                        <div class="col-12 mb-3">
+
+                        <div class="col-md-12 mb-3">
                             <label for="project_status">Status <span class="text-danger">*</span></label>
                             <select class="form-control" id="project_status" name="project_status" required>
                                 <?php foreach ($status as $key => $value) { ?>
@@ -90,7 +96,7 @@
                             </select>
                         </div>
 
-                        <div class="col-12 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label for="start_date">Start Date <span class="text-danger">*</span></label>
                             <input type="date" class="form-control" id="start_date" name="start_date" required>
                         </div>
@@ -106,16 +112,12 @@
 </div>
 
 
+
 <script>
     $(document).ready(function() {
-        //select2
-        $('.team_leader').select2({
-            placeholder: "Select a Team Leader",
-            allowClear: true
-        });
-        //select2
+
         $('.team_member').select2({
-            placeholder: "Select a Team Members",
+            placeholder: "Select a Team Member",
             allowClear: true
         });
 
@@ -247,6 +249,48 @@
                 });
             }
         });
+
+        
+
+    });
+
+    //append div on click add_team
+    $(document).on('click', '#add_team', function() {
+        var html = '';
+        html += '<div class="append_div" style="display: contents;">';
+        html += '<div class="col-md-5 mb-3">';
+        html += '<label for="team_leader">Team Leader <span class="text-danger">*</span></label>';
+        html += '<select class="team_leader form-control" name="team_leader" style="width: 100%;" required>';
+        html += '<option value="">Select Team Leader</option>';
+        <?php foreach ($team_leaders as $key => $value) { ?>
+            html += '<option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] ?></option>';
+        <?php } ?>
+        html += '</select>';
+        html += '</div>';
+        html += '<div class="col-md-5 mb-3">';
+        html += '<div class="form-group">';
+        html += '<label for="team_member">Team Members <span class="text-danger">*</span></label>';
+        html += '<select class="team_member" name="team_member[]" multiple="multiple" style="width: 100%;">';
+        <?php foreach ($team_members as $key => $value) { ?>
+            html += '<option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] ?></option>';
+        <?php } ?>
+        html += '</select>';
+        html += '</div>';
+        html += '</div>';
+        html += '<div class="col-md-2 mb-3" style="padding: 28px;">';
+        html += '<a href="JavaScript:void(0);" id="remove_team" class="btn btn-danger float-end"><i class="fa fa-minus" aria-hidden="true"></i></a>';
+        html += '</div>';
+        html += '</div>';
+        $('.tem_list').append(html);
+        $('.team_member').select2({
+            placeholder: "Select a Team Member",
+            allowClear: true
+        });
+    });
+
+    //remove div on click remove_team
+    $(document).on('click', '#remove_team', function() {
+        $(this).closest('.append_div').remove();
     });
 
 
