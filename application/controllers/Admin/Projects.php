@@ -78,21 +78,19 @@ class Projects extends CI_Controller
                 $team_leader = $this->input->post('team_leader');
                 $team_member = $this->input->post('team_member');
                 $project_id = $this->db->insert_id();
-                //insert team leader
+                
+                //insert full team member
                 foreach ($team_leader as $key => $value) {
-                    $team_leader_data = array(
+                    foreach ($team_member[$key] as $key1 => $value1) {
+                      $team_data = array(
                         'project_id' => $project_id,
-                        'team_leader_id' => $value,
-                    );
-                    $this->project_model->add_team_leader($team_leader_data);
-                }
-                //insert team member
-                foreach ($team_member as $key => $value) {
-                    $team_member_data = array(
-                        'project_id' => $project_id,
-                        'team_member_id' => $value,
-                    );
-                    $this->project_model->add_team_member($team_member_data);
+                        'team_leader' => $value,
+                        'team_member' => $value1,
+                        'added_by' => $this->session->userdata('id'),
+                        'date_created' => date('Y-m-d H:i:s'),
+                      );
+                        $this->project_model->add_project_team($team_data);
+                    }
                 }
                 echo json_encode(['status' => TRUE, 'message' => 'Project added successfully.']);
             } else {

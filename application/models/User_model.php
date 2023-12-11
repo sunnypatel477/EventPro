@@ -53,7 +53,6 @@ class User_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('user');
 		$this->db->where('email', $email);
-		$this->db->where('user.is_delete', 0);
 		$query = $this->db->get();
 		return $query->row_array();
 	}

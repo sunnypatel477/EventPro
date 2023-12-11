@@ -99,6 +99,8 @@ class Project_model extends CI_Model
         $this->db->from('project');
         $this->db->join('project_team', 'project_team.project_id = project.id');
         $this->db->join('project_status', 'project_status.id = project.status');
+        $this->db->join('user', 'user.id = project_team.team_leader');
+        $this->db->join('user as user1', 'user1.id = project_team.team_member');
         // where Condition
         if ($this->session->userdata('role') ==  CEO_ROLE) {
             $this->db->where('project.added_by', $ceo_id);

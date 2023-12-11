@@ -73,7 +73,7 @@
 
                             <div class="col-md-5 mb-3">
                                 <label for="team_leader">Team Leader <span class="text-danger">*</span></label>
-                                <select class="team_leader form-control" name="team_leader" style="width: 100%;" required>
+                                <select class="team_leader form-control" name="team_leader[]" style="width: 100%;" required>
                                     <option value="">Select Team Leader</option>
                                     <?php foreach ($team_leaders as $key => $value) { ?>
                                         <option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] ?></option>
@@ -84,7 +84,7 @@
                             <div class="col-md-5 mb-3">
                                 <div class="form-group">
                                     <label for="team_member">Team Members <span class="text-danger">*</span></label>
-                                    <select class="team_member" name="team_member[]" multiple="multiple" style="width: 100%;">
+                                    <select class="team_member" name="team_member[0][]" multiple="multiple" style="width: 100%;">
                                         <?php foreach ($team_members as $key => $value) { ?>
                                             <option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] ?></option>
                                         <?php } ?>
@@ -279,7 +279,7 @@
                         if (response.status == 1) {
                             hideLoader();
                             $('#addProjectModal').modal('hide');
-                            // $('#add_project')[0].reset();
+                            $('#add_project')[0].reset();
                             $('.team_leader').val([]).trigger('change');
                             $('.team_member').val([]).trigger('change');
                             toastr.success(response.message);
@@ -321,22 +321,22 @@
         }
     });
 
+    var team_member_count = 0; // Variable to keep track of the team count
+
     $(document).on('click', '#add_team', function() {
+        team_member_count++; // Increment the team count
         var html = '';
         html += '<div class="append_div" style="display: contents;">';
         html += '<div class="col-md-5 mb-3">';
         html += '<label for="team_leader">Team Leader <span class="text-danger">*</span></label>';
-        html += '<select class="team_leader form-control" name="team_leader" style="width: 100%;" required>';
+        html += '<select class="team_leader form-control" name="team_leader[]" style="width: 100%;" required>';
         html += '<option value="">Select Team Leader</option>';
-        <?php foreach ($team_leaders as $key => $value) { ?>
-            html += '<option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] ?></option>';
-        <?php } ?>
         html += '</select>';
         html += '</div>';
         html += '<div class="col-md-5 mb-3">';
         html += '<div class="form-group">';
         html += '<label for="team_member">Team Members <span class="text-danger">*</span></label>';
-        html += '<select class="team_member" name="team_member[]" multiple="multiple" style="width: 100%;">';
+        html += '<select class="team_member" name="team_member[' + team_member_count + '][]" multiple="multiple" style="width: 100%;">';
         <?php foreach ($team_members as $key => $value) { ?>
             html += '<option value="<?php echo $value['id'] ?>"><?php echo $value['first_name'] . ' ' . $value['last_name'] ?></option>';
         <?php } ?>
@@ -344,7 +344,7 @@
         html += '</div>';
         html += '</div>';
         html += '<div class="col-md-2 mb-3" style="padding: 28px;">';
-        html += '<a href="JavaScript:void(0);" id="remove_team" class="btn btn-danger float-end"><i class="fa fa-minus" aria-hidden="true"></i></a>';
+        html += '<a href="JavaScript:void(0);" class="btn btn-danger float-end remove_team"><i class="fa fa-minus" aria-hidden="true"></i></a>';
         html += '</div>';
         html += '</div>';
         $('.tem_list').append(html);
@@ -354,8 +354,8 @@
         });
     });
 
-    //remove div on click remove_team
-    $(document).on('click', '#remove_team', function() {
+    // Remove div on click remove_team
+    $(document).on('click', '.remove_team', function() {
         $(this).closest('.append_div').remove();
     });
 </script>
